@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:17.5-alpine
+    volumes:
+      - postgres_todochallenge_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: todochallenge_password
+      POSTGRES_USER: todochallenge_user
+      POSTGRES_DB: todochallenge_db
+    container_name: todochallenge_db
+    ports:
+      - 5432:5432
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    volumes:
+      - ../:/usr/src/app/
+    environment:
+      POSTGRES_NAME: todochallenge_db
+      POSTGRES_USER: todochallenge_user
+      POSTGRES_PASSWORD: todochallenge_password
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      DJANGO_SECRET_KEY: CHANGE_SECRET_KEY
+      DJANGO_SETTINGS_MODULE: todochallenge.settings
+      DJANGO_LOGLEVEL: CRITICAL
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    container_name: todochallenge_backend
+    ports:
+      - 8001:8000
+volumes:
+  postgres_todochallenge_data:
