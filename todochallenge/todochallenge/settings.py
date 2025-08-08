@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', 0))
 
 ALLOWED_HOSTS = ['*']
 
@@ -131,8 +131,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework.authentication.TokenAuthentication',
+        ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+BASE_DIR.parent.joinpath('logs').mkdir(exist_ok=True)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR.parent, './logs/tasks.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'tasks': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
 }
