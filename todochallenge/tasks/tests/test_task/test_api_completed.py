@@ -1,4 +1,5 @@
 from rest_framework import status
+from unittest.mock import patch
 from utils.testing.api_test import CustomAPITestCase
 from tasks.factories.task import TaskFactory
 
@@ -40,3 +41,11 @@ class APITaskCompletedTests(CustomAPITestCase):
         self.assertIsNotNone(task['user'])
         self.assertIsNotNone(task['created_at'])
         self.assertIsNotNone(task['updated_at'])
+
+    @patch('tasks.loggers.logger')
+    def test_set_completed_with_log(self, mock_logger):
+        url = self.get_url(self.task.id)
+        response = self.client.post(url + self.final_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        expected = f'Task completed (id: {self.task.id}). User: {self.user_login.id}.'
+        mock_logger.info.assert_called_once_with(expected)

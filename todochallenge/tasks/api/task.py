@@ -1,4 +1,3 @@
-import logging
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 
@@ -9,9 +8,7 @@ from rest_framework.response import Response
 from tasks.models import Task
 from tasks.repositories.task import TaskRepository
 from tasks.serializers.task import TaskSerializer
-
-
-logger = logging.getLogger('tasks') 
+from tasks.loggers import TaskLogger
 
 
 class TaskFilter(filters.FilterSet):
@@ -33,8 +30,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(user=user)
-        log = f'Task created (id: {serializer.instance.id}). User: {user.id}.'
-        logger.info(log)
+        TaskLogger.task_created(serializer.instance, user)
 
     def get_queryset(self):
         return TaskRepository.all_with_user()
@@ -44,6 +40,5 @@ class TaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         task.completed = True
         task.save()
-        log = f'Task completed (id: {task.id}). User: {request.user.id}.'
-        logger.info(log)
+        TaskLogger.task_completed(task, request.user)
         return Response(self.serializer_class(task).data)

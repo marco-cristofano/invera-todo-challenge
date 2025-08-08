@@ -1,4 +1,5 @@
 from rest_framework import status
+from unittest.mock import patch
 from utils.testing.api_test import CustomAPITestCase
 from users.factories.user import UserFactory
 
@@ -96,3 +97,11 @@ class APITaskCreateTests(CustomAPITestCase):
         response = self.client.post(self.url, body)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertFalse(response.data['updated_at'] == body['updated_at'])
+
+    @patch('tasks.loggers.logger')
+    def test_create_with_log(self, mock_logger):
+        response = self.client.post(self.url, self.body)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        task = response.data
+        expected = f'Task created (id: {task["id"]}). User: {self.user_login.id}.'
+        mock_logger.info.assert_called_once_with(expected)
