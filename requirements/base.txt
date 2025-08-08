@@ -3,4 +3,6 @@ Django==5.2.5
 djangorestframework==3.16.1
 psycopg2-binary==2.9.10
 django-filter==25.1
+drf-spectacular==0.28.0
+drf-spectacular-sidecar==2025.8.1
 

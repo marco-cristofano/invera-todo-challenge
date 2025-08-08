@@ -6,5 +6,7 @@ cd /usr/src/app/todochallenge/
 echo “Apply database migrations”
 python manage.py migrate --settings=${DJANGO_SETTINGS_MODULE}
 
+python manage.py collectstatic --noinput --settings=${DJANGO_SETTINGS_MODULE} 
+
 echo “Starting server”
 python manage.py runserver 0.0.0.0:8000 --settings=${DJANGO_SETTINGS_MODULE}

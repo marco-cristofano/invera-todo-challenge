@@ -1,3 +1,5 @@
+staticfiles/
+
 ### Mac OS X ###
 .DS_Store
 .AppleDouble
