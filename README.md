@@ -27,7 +27,7 @@ La infraestructura es muy simple, consta del servidor backend y de la BDD Postgr
    ```
    Se levantarán dos contenedores, uno con la BDD Postgres y el restante con el propio backend desarrollado en python (puerto 8001).
 
-    Si es la primera vez que se levanta puede suceder que la BDD tarde más en desplegarse que el backend y arroje error. En ese caso, volver a ejecutar el comando *docker-compose --build*.
+   **Importante**:  Si es la primera vez que se levanta puede suceder que la BDD tarde más en desplegarse que el backend y arroje error de conexión. En ese caso, volver a ejecutar el comando *docker-compose down* y luego *docker-compose up --build*.
 
 3. Para ejecutar los tests:
    ```bash
