@@ -49,7 +49,7 @@ La infraestructura es muy simple, consta del servidor backend y de la BDD Postgr
 
 5. Documentacion de la API:
    - [localhost:8001/api/v1/docs/](localhost:8001/api/v1/docs/)
-   - [localhost:8001/api/v1/redocs/](localhost:8001/api/v1/redocs/)
+   - [localhost:8001/api/v1/redoc/](localhost:8001/api/v1/redoc/)
    ![API doc](./documentation/swagger.png)
 
 #### Consideraciones
