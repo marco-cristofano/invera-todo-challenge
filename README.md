@@ -14,7 +14,7 @@ El presente documento posee las características principales de la resolución p
 
 #### Infraestructura
 
-La infraestructura es muy simple, consta del servidor backend y de la BDD Postgres. Para *robustecerlo* se debería añadir algun servidor web (nginx por ejemplo).
+La infraestructura es muy simple, consta del servidor backend y de la BDD Postgres. Para *robustecerlo* se debería añadir algun servidor web (nginx por ejemplo) y cambiar las configuraciones acorde a un entorno productivo.
 
 ##### Guía
 1. Acceder a la carpeta docker y ejecutar:
@@ -27,7 +27,7 @@ La infraestructura es muy simple, consta del servidor backend y de la BDD Postgr
    ```
    Se levantarán dos contenedores, uno con la BDD Postgres y el restante con el propio backend desarrollado en python (puerto 8001).
 
-   **Importante**:  Si es la primera vez que se levanta puede suceder que la BDD tarde más en desplegarse que el backend y arroje error de conexión. En ese caso, volver a ejecutar el comando *docker-compose down* y luego *docker-compose up --build*.
+   **Importante**:  Si es la primera vez que se levanta puede suceder que la BDD tarde más en desplegarse que el backend y arroje error de conexión. En ese caso, volver a ejecutar el comando *docker-compose down* y luego *docker-compose up --build*. No quise cambiar la politica de reinicio del servidor backend.
 
 3. Para ejecutar los tests:
    ```bash
@@ -48,8 +48,8 @@ La infraestructura es muy simple, consta del servidor backend y de la BDD Postgr
    - password=todochallenge
 
 5. Documentacion de la API:
-   - [127.0.0.1:8001/api/v1/docs/](127.0.0.1:8001/api/v1/docs/)
-   - [127.0.0.1:8001/api/v1/redocs/](127.0.0.1:8001/api/v1/redocs/)
+   - [localhost:8001/api/v1/docs/](localhost:8001/api/v1/docs/)
+   - [localhost:8001/api/v1/redocs/](localhost:8001/api/v1/redocs/)
    ![API doc](./documentation/swagger.png)
 
 #### Consideraciones
